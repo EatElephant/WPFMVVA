@@ -23,6 +23,12 @@ namespace BackendGUI
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new ViewModels.MainWinVM();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -51,10 +51,10 @@
             <!-- setting and close command button-->
             <Grid Grid.Column="3" Margin="5,0,-0.4,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="SettingBtn" Width="35" Height="35" >
+                    <Button x:Name="SettingBtn" Width="35" Height="35" Command="{Binding ConfigCommand}" >
                         <Image Source ="../Images/setting.png" />
                     </Button>
-                    <Button x:Name="CloceBtn" Width="35" Height="35" Margin="10">
+                    <Button x:Name="CloceBtn" Width="35" Height="35" Margin="10" Click="Close_Click">
                         <Image Source ="../Images/close.png" />
                     </Button>
                 </StackPanel>
