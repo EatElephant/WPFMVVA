@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace BackendGUI.ViewModels
 {
-    class MainWinVM : ViewWithNotification
+    class MainWinVM : WithNotification
     {
         DelegateCommand configCommand;
         public MainWinVM()

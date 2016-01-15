@@ -5,35 +5,55 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
+using System.Collections.ObjectModel;
 
 
 
 namespace BackendGUI.Models
 {
-    public struct FeatureItem
+    public class FeatureItem
     {
-        public string ItemName, Description, tolerance;
+        private string _ItemName;
+        private string _Description;
+        private string _tolerance;
+        public string ItemName { get { return _ItemName; } set { _ItemName = value; } }
+        public string Description { get { return _Description; } set { _Description = value; } }
+        public string tolerance { get { return _tolerance; } set { _tolerance = value; } }
 
         public FeatureItem(string name, string desc, string toler)
         {
-            ItemName = name;
-            Description = desc;
-            tolerance = toler;
+            _ItemName = name;
+            _Description = desc;
+            _tolerance = toler;
         }
     }
 
     class AutoPart
     {
+        private ObservableCollection<FeatureItem> items = new ObservableCollection<FeatureItem>();
+
         public XNamespace NS;
-        public string PartName;
-        public string CreateDate;
-        public List<FeatureItem> Items = new List<FeatureItem>();
-        public string dataFolder;
-        public string cadFileName;
-        public string robotScriptName;
-        public string inspectScriptName;
-        public string newPieceScriptName;
-        public string tolerance;
+        public string PartName { get; set; }
+        public string CreateDate { get; set; }
+        public string dataFolder { get; set; }
+        public string cadFileName { get; set; }
+        public string robotScriptName { get; set; }
+        public string inspectScriptName { get; set; }
+        public string newPieceScriptName { get; set; }
+        public string tolerance { get; set; }
+
+        public ObservableCollection<FeatureItem> Items
+        {
+            get { return items; }
+            set { items = value; }
+        }
+
+        public AutoPart(XNamespace ns, int index = 0)
+        {
+            NS = ns;
+            PartName = "AutoPart" + index.ToString();
+            CreateDate = DateTime.Now.ToString();
+        }
 
         public AutoPart(XElement node, XNamespace ns)
         {
@@ -42,7 +62,7 @@ namespace BackendGUI.Models
             CreateDate = (string)node.Element(NS + "CreateDate");
             foreach (XElement item in node.Element(NS + "Items").Elements())
             {
-                Items.Add(new FeatureItem((string)item.Element("ItemName"), (string)item.Element("Description"), (string)item.Element("tolerance")));
+                items.Add(new FeatureItem((string)item.Element("ItemName"), (string)item.Element("Description"), (string)item.Element("tolerance")));
             }
             dataFolder = (string)node.Element(NS + "dataFolder");
             cadFileName = (string)node.Element(NS + "cadFileName");
@@ -60,7 +80,7 @@ namespace BackendGUI.Models
             res.Add(new XElement(NS + "CreateDate", CreateDate));
             
             XElement ItemsNode = new XElement(NS + "Items");
-            foreach (FeatureItem item in Items)
+            foreach (FeatureItem item in items)
             {
                 ItemsNode.Add(new XElement("FeatureItem",
                     new XElement("ItemName", item.ItemName), new XElement("Description", item.Description), new XElement("tolerance", item.tolerance)));
@@ -81,10 +101,14 @@ namespace BackendGUI.Models
     class AutoParts
     {
         public XNamespace NS;
+        public ObservableCollection<AutoPart> Parts
+        {
+            get { return parts; }
+            set { parts = value; }
+        }
 
-        public List<AutoPart> Parts = new List<AutoPart>();
-
-        private XElement rootNode;
+        private ObservableCollection<AutoPart> parts = new ObservableCollection<AutoPart>();
+        private XElement rootNode = null;
 
         public AutoParts()
         {
@@ -93,16 +117,23 @@ namespace BackendGUI.Models
 
         public bool Open(string path)
         {
-            if (!Directory.Exists(path))
+            if (!File.Exists(path))
             {
                 return false;
             }
 
-            rootNode = XElement.Load(path);
-
-            foreach (XElement node in rootNode.Elements("AutoPart"))
+            try
             {
-                Parts.Add(ParseNode(node));
+                rootNode = XElement.Load(path);
+
+                foreach (XElement node in rootNode.Elements("AutoPart"))
+                {
+                    parts.Add(ParseNode(node));
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
 
             return true;
@@ -116,6 +147,46 @@ namespace BackendGUI.Models
             AutoPart res = new AutoPart(node, NS);
 
             return res;
+        }
+
+        public XElement UpdateXMLTree()
+        {
+            if(rootNode != null)
+                rootNode.RemoveNodes();
+
+            foreach (AutoPart part in parts)
+            {
+                rootNode.Add(part.GetNode());
+            }
+
+            return rootNode;
+        }
+
+        public void SaveFile(string path)
+        {
+            if (UpdateXMLTree() != null)
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
+                rootNode.Save(path);
+            }
+        }
+
+        public void NewPart()
+        {
+            if (rootNode != null)
+            {
+                int newIndex = Parts.Count;
+                parts.Add(new AutoPart(NS, newIndex));
+            }
+        }
+
+        public void DeletePart(int index)
+        {
+            if (rootNode != null)
+            {
+                parts.RemoveAt(index);
+            }
         }
     }
 }
