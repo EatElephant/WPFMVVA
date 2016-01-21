@@ -18,7 +18,6 @@ namespace BackendGUI.ViewModels
         private DelegateCommand saveToCommand;
 
         private DelegateCommand newPartCommand;
-        private DelegateCommand delPartCommand;
 
         public ICommand LoadCommand
         {
@@ -33,11 +32,6 @@ namespace BackendGUI.ViewModels
         public ICommand NewPartCommand
         {
             get { return newPartCommand; }
-        }
-
-        public ICommand DelPartCommand
-        {
-            get { return delPartCommand; }
         }
 
 

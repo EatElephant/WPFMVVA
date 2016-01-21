@@ -28,6 +28,9 @@ namespace BackendGUI.Models
         }
     }
 
+    /// <summary>
+    /// Class of Single Part
+    /// </summary>
     class AutoPart
     {
         private ObservableCollection<FeatureItem> items = new ObservableCollection<FeatureItem>();
@@ -57,19 +60,26 @@ namespace BackendGUI.Models
 
         public AutoPart(XElement node, XNamespace ns)
         {
-            NS = ns;
-            PartName = (string)node.Element(NS + "PartName");
-            CreateDate = (string)node.Element(NS + "CreateDate");
-            foreach (XElement item in node.Element(NS + "Items").Elements())
+            try
             {
-                items.Add(new FeatureItem((string)item.Element("ItemName"), (string)item.Element("Description"), (string)item.Element("tolerance")));
+                NS = ns;
+                PartName = (string)node.Element(NS + "PartName");
+                CreateDate = (string)node.Element(NS + "CreateDate");
+                foreach (XElement item in node.Element(NS + "Items").Elements())
+                {
+                    items.Add(new FeatureItem((string)item.Element("ItemName"), (string)item.Element("Description"), (string)item.Element("tolerance")));
+                }
+                dataFolder = (string)node.Element(NS + "dataFolder");
+                cadFileName = (string)node.Element(NS + "cadFileName");
+                robotScriptName = (string)node.Element(NS + "robotScriptName");
+                inspectScriptName = (string)node.Element(NS + "inspectScriptName");
+                newPieceScriptName = (string)node.Element(NS + "newPieceScriptName");
+                tolerance = (string)node.Element(NS + "tolerance");
             }
-            dataFolder = (string)node.Element(NS + "dataFolder");
-            cadFileName = (string)node.Element(NS + "cadFileName");
-            robotScriptName = (string)node.Element(NS + "robotScriptName");
-            inspectScriptName = (string)node.Element(NS + "inspectScriptName");
-            newPieceScriptName = (string)node.Element(NS + "newPieceScriptName");
-            tolerance = (string)node.Element(NS + "tolerance");
+            catch (Exception ex)
+            {
+                return;
+            }
         }
 
         public XElement GetNode()
@@ -98,6 +108,9 @@ namespace BackendGUI.Models
         }
     }
 
+    /// <summary>
+    /// Class of AutoParts.xml file
+    /// </summary>
     class AutoParts
     {
         public XNamespace NS;

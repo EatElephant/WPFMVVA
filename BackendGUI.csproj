@@ -58,6 +58,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CameraSettingPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DevicePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,12 +75,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\AutoParts.cs" />
+    <Compile Include="Models\CameraSettings.cs" />
     <Compile Include="ViewModels\AutoPartPanelVM.cs" />
+    <Compile Include="ViewModels\CameraSettingPanelVM.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
     <Compile Include="ViewModels\MainWinVM.cs" />
     <Compile Include="ViewModels\WithNotification.cs" />
     <Compile Include="Views\AutoPartPanel.xaml.cs">
       <DependentUpon>AutoPartPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CameraSettingPanel.xaml.cs">
+      <DependentUpon>CameraSettingPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DevicePanel.xaml.cs">
+      <DependentUpon>DevicePanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

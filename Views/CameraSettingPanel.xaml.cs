@@ -18,26 +18,23 @@ using BackendGUI.ViewModels;
 namespace BackendGUI.Views
 {
     /// <summary>
-    /// Interaction logic for AutoPartPanel.xaml
+    /// Interaction logic for CameraSettingPanel.xaml
     /// </summary>
-    public partial class AutoPartPanel : UserControl
+    public partial class CameraSettingPanel : UserControl
     {
-        private AutoPartPanelVM ViewModel;
+        //private CameraSettingPanelVM ViewModel;
 
-        public AutoPartPanel()
+        public CameraSettingPanel()
         {
             InitializeComponent();
-            ViewModel = new AutoPartPanelVM();
-            this.DataContext = ViewModel;
-            DataList.DataContext = ViewModel.AutoParts;
         }
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-            dlg.InitialDirectory = PathText.Text.Substring(0,(PathText.Text.LastIndexOf(@"\") + 1));
-            dlg.FileName = "AutoParts";
+            dlg.InitialDirectory = PathText.Text.Substring(0, (PathText.Text.LastIndexOf(@"\") + 1));
+            dlg.FileName = "CameraSettings";
             dlg.DefaultExt = "xml";
             dlg.Filter = "Xml Files (.xml)|*.xml";
 
@@ -46,12 +43,6 @@ namespace BackendGUI.Views
                 PathText.Text = dlg.FileName;
                 PathText.Focus();
             }
-        }
-
-        private void DelPart_Click(object sender, RoutedEventArgs e)
-        {
-            if (DataList.SelectedIndex >= 0)
-                ViewModel.DelSelPart(DataList.SelectedIndex);
         }
     }
 }

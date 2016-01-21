@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Local="clr-namespace:BackendGUI"
         xmlns:ViewModel="clr-namespace:BackendGUI.ViewModels"
+        xmlns:Views="clr-namespace:BackendGUI.Views"
         Title="Configuration Panel" Height="1080" Width="1920"
         WindowStyle="None" ResizeMode="NoResize"  
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
@@ -71,12 +72,12 @@
         <TabControl Background="LightGray" Height ="800" Width="1500" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
             <TabItem Header="Devices" Style="{DynamicResource ResourceKey=styleTabItem}">
                 <StackPanel>
-
+                    <Views:DevicePanel x:Name="DevicePanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Parts" Style="{DynamicResource ResourceKey=styleTabItem}">
                 <Grid>
-                    <Local:AutoPartPanel x:Name="autoPartPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
+                    <Views:AutoPartPanel x:Name="autoPartPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Procedure" Style="{DynamicResource ResourceKey=styleTabItem}">
