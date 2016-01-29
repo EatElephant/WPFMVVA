@@ -25,19 +25,26 @@ namespace BackendGUI.ViewModels
             _backup = backup;
 
             addDirCommand = new DelegateCommand(AddDir);
-            backupCommand = new DelegateCommand(BackupPanelVM.Backup);
+            backupCommand = new DelegateCommand(BackupPanelVM.curVM.Backup);
         }
 
         public void Add(DirVM node)
         {
             this.Children.Add(node);
             node.Parent = this;
+
+            if (BackupPanelVM.curVM != null)
+                BackupPanelVM.curVM.UpdateTrackTree();
         }
 
         public bool Remove(DirVM node)
         {
             if (node.Parent == this)
+            {
+                if (BackupPanelVM.curVM != null)
+                    BackupPanelVM.curVM.UpdateTrackTree();
                 return this.Children.Remove(node);
+            }
             else
                 return false;
         }
@@ -108,14 +115,20 @@ namespace BackendGUI.ViewModels
         public void Add(FileVM node)
         {
             this.Children.Add(node);
-
             node.Parent = this;
+
+            if (BackupPanelVM.curVM != null)
+                BackupPanelVM.curVM.UpdateTrackTree();
         }
 
         public bool Remove(FileVM node)
         {
             if (node.Parent == this)
+            {
+                if (BackupPanelVM.curVM != null)
+                    BackupPanelVM.curVM.UpdateTrackTree();
                 return this.Children.Remove(node);
+            }
             else
                 return false;
         }
@@ -126,6 +139,9 @@ namespace BackendGUI.ViewModels
             {
                 bool res = this.Parent.Children.Remove(this);
                 this.Parent = null;
+
+                if (BackupPanelVM.curVM != null)
+                    BackupPanelVM.curVM.UpdateTrackTree();
 
                 return res;
             }
@@ -140,6 +156,9 @@ namespace BackendGUI.ViewModels
             {
                 _dir.Name = value;
                 RaisedPropertyChanged("Name");
+
+                if (BackupPanelVM.curVM != null)
+                    BackupPanelVM.curVM.UpdateTrackTree();
             }
         }
 
@@ -213,6 +232,9 @@ namespace BackendGUI.ViewModels
             {
                 bool res = this.Parent.Children.Remove(this);
                 this.Parent = null;
+
+                if (BackupPanelVM.curVM != null)
+                    BackupPanelVM.curVM.UpdateTrackTree();
 
                 return res;
             }

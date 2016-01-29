@@ -22,8 +22,10 @@ namespace BackendGUI.Helper
         public string Label { get; set; }
         public string Value { get; set; }
 
-        public RenameDialog(string label)
+        public RenameDialog(string label, bool canCancel = false)
         {
+            if (canCancel)
+                cancelBtn.IsEnabled = false;
             Label = label;
             InitializeComponent();
         }
