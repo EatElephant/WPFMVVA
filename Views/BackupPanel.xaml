@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModel="clr-namespace:BackendGUI.ViewModels"
              mc:Ignorable="d" 
-              d:DesignHeight="750" d:DesignWidth="1400" HorizontalAlignment="Center" VerticalAlignment="Center">
+              d:DesignHeight="750" d:DesignWidth="1400" HorizontalAlignment="Center" VerticalAlignment="Center"
+             x:Name="BackupUserControl">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,7 +16,7 @@
     </UserControl.Resources>
     
     <UserControl.DataContext>
-        <ViewModel:BackupPanelVM/>
+        <ViewModel:BackupPanelVM x:Name="PanelVM"/>
     </UserControl.DataContext>
     
     <Grid>
@@ -41,16 +42,16 @@
             <TreeView x:Name="TrackTree" Margin="10,10,10,10" HorizontalContentAlignment="Stretch" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RootCollection}">
                 <TreeView.Resources>
                     <ContextMenu x:Key ="BackupContext" StaysOpen="true">
-                        <MenuItem Header="Add Directory"/>
-                        <MenuItem Header="Backup"/>
+                        <MenuItem Header="Add Directory" Command="{Binding AddDirCommand}"/>
+                        <MenuItem Header="Backup" Command="{Binding BackupCommand}"/>
                     </ContextMenu>
                     <ContextMenu x:Key ="DirContext" StaysOpen="true">
-                        <MenuItem Header="Add Tracked File"/>
-                        <MenuItem Header="Rename"/>
-                        <MenuItem Header="Delete"/>
+                        <MenuItem Header="Add Tracked File" Command="{Binding AddFileCommand}"/>
+                        <MenuItem Header="Rename" Command="{Binding RenameCommand}"/>
+                        <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
                     </ContextMenu>
                     <ContextMenu x:Key ="FileContext" StaysOpen="true">
-                        <MenuItem Header="Delete"/>
+                        <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
                     </ContextMenu>
 
                     <HierarchicalDataTemplate DataType="{x:Type ViewModel:BackupVM}" ItemsSource="{Binding Children}">
@@ -74,6 +75,7 @@
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
+                
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

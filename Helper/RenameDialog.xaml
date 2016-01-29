@@ -1,0 +1,35 @@
+﻿<Window x:Class="BackendGUI.Helper.RenameDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RenameDialog" Height="180" Width="300">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Views/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}"/>
+    </Window.DataContext>
+    
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label Content="{Binding Label}" FontSize="18"/>
+            <TextBox Width="200" Height="30" Text="{Binding Value}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10,15">
+            <Button Margin="10, 0" Content="Confirm" Height="30" Width="80" Click="Confirm_Click" />
+            <Button Margin="10, 0" Content="Cancel" Height="30" Width="80" Click="Cancel_Click" />
+        </StackPanel>
+        
+        
+    </Grid>
+</Window>

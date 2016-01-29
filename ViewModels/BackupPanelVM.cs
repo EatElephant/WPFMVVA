@@ -28,12 +28,12 @@ namespace BackendGUI.ViewModels
 
             _rootCollection.Add(_backupRoot);
 
-            DirVM defaultDir = new DirVM(new BackupDir("Default"), _backupRoot);
+            _backupRoot.Add(new DirVM(new BackupDir("Default")));
 
-            FileVM testfile = new FileVM(new BackupFile("param.xml", @"d:\API\Testing\param.xml"), _backupRoot.Children[0] as DirVM);
+            //(_backupRoot.Children[0] as DirVM).Add(new FileVM(new BackupFile("param.xml", @"d:\API\Testing\param.xml")));
         }
 
-        void Backup()
+        public static void Backup()
         {
             InputDialog dlg = new InputDialog("Fill in the information for this backup and click confirm button to backup!");
 

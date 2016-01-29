@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Forms;
+using System.Windows.Input;
 using BackendGUI.Models;
+using BackendGUI.Helper;
 
 namespace BackendGUI.ViewModels
 {
@@ -13,14 +16,22 @@ namespace BackendGUI.ViewModels
     {
         private Backup _backup;
 
+        //ContextMenu Command
+        private DelegateCommand addDirCommand;
+        private DelegateCommand backupCommand;
+
         public BackupVM(Backup backup) : base(null)
         {
             _backup = backup;
+
+            addDirCommand = new DelegateCommand(AddDir);
+            backupCommand = new DelegateCommand(BackupPanelVM.Backup);
         }
 
         public void Add(DirVM node)
         {
             this.Children.Add(node);
+            node.Parent = this;
         }
 
         public bool Remove(DirVM node)
@@ -56,6 +67,22 @@ namespace BackendGUI.ViewModels
             }
         }
 
+        public ICommand AddDirCommand
+        {
+            get { return addDirCommand; }
+        }
+
+        public ICommand BackupCommand
+        {
+            get { return backupCommand; }
+        }
+
+
+        void AddDir()
+        {
+            Add(new DirVM(new BackupDir("new Directory")));
+        }
+
     }
 
 
@@ -63,22 +90,45 @@ namespace BackendGUI.ViewModels
     {
         private BackupDir _dir;
 
-        public DirVM(BackupDir dir, BackupVM parent)
+        //ContextMenu Command
+        private DelegateCommand addFileCommand;
+        private DelegateCommand renameCommand;
+        private DelegateCommand deleteCommand;
+
+        public DirVM(BackupDir dir, BackupVM parent = null)
             : base(parent)
         {
             _dir = dir;
-            parent.Add(this);
+
+            addFileCommand = new DelegateCommand(AddTrackedFile);
+            renameCommand = new DelegateCommand(Rename);
+            deleteCommand = new DelegateCommand(Delete);
         }
 
         public void Add(FileVM node)
         {
             this.Children.Add(node);
+
+            node.Parent = this;
         }
 
         public bool Remove(FileVM node)
         {
             if (node.Parent == this)
                 return this.Children.Remove(node);
+            else
+                return false;
+        }
+
+        public bool Detach()
+        {
+            if (this.Parent != null)
+            {
+                bool res = this.Parent.Children.Remove(this);
+                this.Parent = null;
+
+                return res;
+            }
             else
                 return false;
         }
@@ -92,6 +142,53 @@ namespace BackendGUI.ViewModels
                 RaisedPropertyChanged("Name");
             }
         }
+
+        public ICommand AddFileCommand
+        {
+            get { return addFileCommand; }
+        }
+
+        public ICommand RenameCommand
+        {
+            get { return renameCommand; }
+        }
+
+        public ICommand DeleteCommand
+        {
+            get { return deleteCommand; }
+        }
+
+        void AddTrackedFile()
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+
+            dlg.Filter = "txt files (*.txt)|*.txt|xml files (*.xml)|*.xml|config files (*.config)|*.config| All files (*.*)|*.*";
+            dlg.RestoreDirectory = true;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                string path = dlg.FileName;
+                string filename = path.Substring(path.LastIndexOf(@"\") + 1, path.Length - path.LastIndexOf(@"\") - 1);
+                Add(new FileVM(new BackupFile(filename, path)));
+            }
+            else
+                return;
+        }
+
+        void Rename()
+        {
+            RenameDialog dlg = new RenameDialog("Name: ");
+
+            if (false == dlg.ShowDialog())
+                return;
+
+            Name = dlg.Value;
+        }
+
+        void Delete()
+        {
+            Detach();
+        }
     }
 
 
@@ -99,11 +196,15 @@ namespace BackendGUI.ViewModels
     {
         private BackupFile _file;
 
-        public FileVM(BackupFile file, DirVM parent)
+        //ContextMenu Command
+        private DelegateCommand deleteCommand;
+
+        public FileVM(BackupFile file, DirVM parent = null)
             : base(parent)
         {
             _file = file;
-            parent.Add(this);
+
+            deleteCommand = new DelegateCommand(Delete);
         }
 
         public bool Detach()
@@ -141,6 +242,15 @@ namespace BackendGUI.ViewModels
 
         }
 
+        public ICommand DeleteCommand
+        {
+            get { return deleteCommand; }
+        }
+
+        void Delete()
+        {
+            Detach();
+        }
     }
 
 
@@ -152,6 +262,8 @@ namespace BackendGUI.ViewModels
         private ObservableCollection<TreeItemVM> _children;
         private TreeItemVM _parent;
 
+        private static object _selectedItem = null;
+        
         bool _isExpanded;
         bool _isSelected;
 
@@ -207,6 +319,8 @@ namespace BackendGUI.ViewModels
                 {
                     _isSelected = value;
                     this.RaisedPropertyChanged("IsSelected");
+
+                    _selectedItem = this;
                 }
             }
         }
@@ -215,6 +329,15 @@ namespace BackendGUI.ViewModels
         {
             get { return _parent; }
             set { _parent = value; }
+        }
+
+        public static object SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+            }
         }
 
         #endregion
