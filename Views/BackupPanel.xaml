@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="BackendGUI.Views.BackupPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ViewModel="clr-namespace:BackendGUI.ViewModels"
+             mc:Ignorable="d" 
+              d:DesignHeight="750" d:DesignWidth="1400" HorizontalAlignment="Center" VerticalAlignment="Center"
+             x:Name="BackupUserControl">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <UserControl.DataContext>
+        <ViewModel:BackupPanelVM x:Name="PanelVM"/>
+    </UserControl.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="600"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Column="0" Grid.Row="0" Margin="15, 20, 10, 5" VerticalAlignment="Bottom" FontSize="20" Text="Track Tree"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Margin="15, 20, 10, 5" VerticalAlignment="Bottom" FontSize="20" Text="Backup Tree"/>
+
+            <TreeView x:Name="TrackTree" Margin="10,10,10,10" HorizontalContentAlignment="Stretch" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding RootCollection}">
+                <TreeView.Resources>
+                    <ContextMenu x:Key ="BackupContext" StaysOpen="true">
+                        <MenuItem Header="Add Directory" Command="{Binding AddDirCommand}"/>
+                        <MenuItem Header="Backup" Command="{Binding BackupCommand}"/>
+                    </ContextMenu>
+                    <ContextMenu x:Key ="DirContext" StaysOpen="true">
+                        <MenuItem Header="Add Tracked File" Command="{Binding AddFileCommand}"/>
+                        <MenuItem Header="Rename" Command="{Binding RenameCommand}"/>
+                        <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
+                    </ContextMenu>
+                    <ContextMenu x:Key ="FileContext" StaysOpen="true">
+                        <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
+                    </ContextMenu>
+
+                    <HierarchicalDataTemplate DataType="{x:Type ViewModel:BackupVM}" ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource BackupContext}">
+                            <Image Width="25" Height="25" Source="../Images/DataIcon.png"/>
+                            <TextBlock Text="{Binding Title}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+
+                    <HierarchicalDataTemplate DataType="{x:Type ViewModel:DirVM}" ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource DirContext}">
+                            <Image Width="25" Height="25" Source="../Images/DirIcon.png"/>
+                            <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+
+                    <HierarchicalDataTemplate DataType="{x:Type ViewModel:FileVM}" ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource FileContext}">
+                            <Image Width="25" Height="25" Source="../Images/FileIcon.png"/>
+                            <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+                
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="FontWeight" Value="Normal" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="FontWeight" Value="Bold" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TreeView Grid.Row="0" x:Name="BackupView" Margin="10,10,10,10" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding BackupTreeView}">
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type ViewModel:BackupVM}" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+
+                        <HierarchicalDataTemplate DataType="{x:Type ViewModel:DirVM}" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+
+                        <HierarchicalDataTemplate DataType="{x:Type ViewModel:FileVM}" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="True" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
+                <TextBox x:Name="LogDisplay" Grid.Row="1" Margin="10,10" Height="200" Text="{Binding Log}" FontSize="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsEnabled="False"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0"  Orientation="Horizontal">
+                <ComboBox Height="30" Width="720" Margin="40,5" FontSize="15" ItemsSource="{Binding BackupList}" DisplayMemberPath="Title" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"/>
+                <Button Height="30" Width="120" Margin="40,0, 10, 0" Content="Use" Command="{Binding UseCommand}" />
+                <Button Height="30" Width="120" Margin="10,0" Content="Delete" Command="{Binding DeleteCommand}"/>
+            </StackPanel>
+            <Button Grid.Column="1" Height="30" Width="150" Margin="40,0" Content="Backup"  Command="{Binding BackupCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

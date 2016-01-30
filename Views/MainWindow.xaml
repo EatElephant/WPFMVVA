@@ -64,7 +64,6 @@
                         </Button>
                     </StackPanel>
                 </Grid>
-
             </Grid>
         </Border>
         
@@ -98,6 +97,11 @@
             <TabItem Header="Log" Style="{DynamicResource ResourceKey=styleTabItem}">
                 <StackPanel>
 
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Backup" Style="{DynamicResource ResourceKey=styleTabItem}">
+                <StackPanel>
+                    <Views:BackupPanel x:Name="backupPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
                 </StackPanel>
             </TabItem>
         </TabControl>
