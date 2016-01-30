@@ -12,23 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BackendGUI.ViewModels;
+using BackendGUI.Helper;
 
-namespace BackendGUI
+namespace BackendGUI.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for BackupPanel.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class BackupPanel : UserControl
     {
-        public MainWindow()
+        public BackupPanel()
         {
             InitializeComponent();
-            this.DataContext = new ViewModels.MainWinVM();
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
     }
 }

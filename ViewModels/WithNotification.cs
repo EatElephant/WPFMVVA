@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace BackendGUI.ViewModels
 {
-    class ViewWithNotification : INotifyPropertyChanged
+    class WithNotification : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -8,7 +8,45 @@
         <GradientStop Color="#FF5A9CB2" Offset="1"/>
     </LinearGradientBrush>
 
+    <!--Common Button Style-->
     <Style TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="#373737" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#E59400" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="OrangeRed" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter TargetName="MyContentPresenter" Property="RenderTransform">
+                                <Setter.Value>
+                                    <TranslateTransform Y="1.0"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--Image Button Style-->
+    <Style x:Key="ImageButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -43,6 +81,7 @@
         </Setter>
     </Style>
     
+    <!--TabItem Style-->
     <Style x:Key="styleTabItem" TargetType="{x:Type TabItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Width" Value="150"/>
@@ -52,7 +91,7 @@
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Border x:Name="Border"
                         Background="LightGray"
-                        BorderThickness="0,0,1,0"
+                        BorderThickness="1,1,1,0"
                         BorderBrush="#032A6B"
                         CornerRadius="4,25,0,4">
                         <ContentPresenter x:Name="ContentSite"
@@ -62,7 +101,7 @@
                                         Margin="20,4,20,5"
                                         RecognizesAccessKey="True"
                                         VerticalAlignment="Center"
-                                        TextBlock.FontSize="13"
+                                        TextBlock.FontSize="14"
                                         TextBlock.Foreground="#000000">
                             
                             <ContentPresenter.Effect>
@@ -87,5 +126,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
 
 </ResourceDictionary>

@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,6 +54,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Helper\InputDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Helper\RenameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AutoPartPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BackupPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CameraSettingPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DevicePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -61,8 +86,34 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helper\InputDialog.xaml.cs">
+      <DependentUpon>InputDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\RenameDialog.xaml.cs">
+      <DependentUpon>RenameDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AutoParts.cs" />
+    <Compile Include="Models\BackupModels.cs" />
+    <Compile Include="Models\CameraSettings.cs" />
+    <Compile Include="ViewModels\AutoPartPanelVM.cs" />
+    <Compile Include="ViewModels\BackupPanelVM.cs" />
+    <Compile Include="ViewModels\CameraSettingPanelVM.cs" />
     <Compile Include="ViewModels\DelegateCommand.cs" />
-    <Compile Include="ViewModels\ViewWithNotification.cs" />
+    <Compile Include="ViewModels\MainWinVM.cs" />
+    <Compile Include="ViewModels\TreeItemVM.cs" />
+    <Compile Include="ViewModels\WithNotification.cs" />
+    <Compile Include="Views\AutoPartPanel.xaml.cs">
+      <DependentUpon>AutoPartPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BackupPanel.xaml.cs">
+      <DependentUpon>BackupPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CameraSettingPanel.xaml.cs">
+      <DependentUpon>CameraSettingPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DevicePanel.xaml.cs">
+      <DependentUpon>DevicePanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -89,6 +140,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -100,14 +152,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\apiLogo.png" />
     <Resource Include="Images\carDoorLeft.png" />
     <Resource Include="Images\close.png" />
     <Resource Include="Images\loginIcon.png" />
     <Resource Include="Images\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DataIcon.png" />
+    <Resource Include="Images\DirIcon.png" />
+    <Resource Include="Images\FileIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
