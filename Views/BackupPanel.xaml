@@ -90,9 +90,39 @@
                 </TreeView.ItemContainerStyle>
             </TreeView>
 
-            <TreeView x:Name="BackupTree" Margin="10,10,10,10" HorizontalContentAlignment="Stretch" Grid.Column="1" Grid.Row="1">
-                
-            </TreeView>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <TreeView Grid.Row="0" x:Name="BackupView" Margin="10,10,10,10" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding BackupTreeView}">
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type ViewModel:BackupVM}" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+
+                        <HierarchicalDataTemplate DataType="{x:Type ViewModel:DirVM}" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+
+                        <HierarchicalDataTemplate DataType="{x:Type ViewModel:FileVM}" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Bottom" FontSize="15"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="True" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                </TreeView>
+                <TextBox x:Name="LogDisplay" Grid.Row="1" Margin="10,10" Height="200" Text="{Binding Log}" FontSize="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsEnabled="False"/>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="1">

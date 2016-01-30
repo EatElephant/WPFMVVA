@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using BackendGUI.Models;
 using BackendGUI.Helper;
 using System.Xml.Linq;
+using System.Windows.Controls;
 using System.IO;
 
 namespace BackendGUI.ViewModels
@@ -36,9 +37,11 @@ namespace BackendGUI.ViewModels
         private BackupVM _backupRoot;
         private ObservableCollection<BackupVM> _rootCollection = new ObservableCollection<BackupVM>();
         private XElement _treeRoot;
+        private ObservableCollection<BackupVM> _backupTreeView = new ObservableCollection<BackupVM>();
 
         private ObservableCollection<BackupItem> _backupList = new ObservableCollection<BackupItem>();
         private int _selectedBackupIndex = -1;
+        private string _logText = "";
 
         private DelegateCommand backupCommand;
         private DelegateCommand useCommand;
@@ -228,11 +231,45 @@ namespace BackendGUI.ViewModels
             }
         }
 
+        private void UpdateBackupView()
+        {
+            
+            if (_selectedBackupIndex > -1 && _backupList.Count > 0)
+            {
+                //Update Log display
+                XElement backup = XElement.Load(_backupList[_selectedBackupIndex].Path);
+                Log = (string)backup.Attribute("Log");
+
+                //Update Backup Tree View
+                _backupTreeView.Clear();
+
+                BackupVM backupTreeItem = new BackupVM(new Backup((string)backup.Attribute("Title")));
+                _backupTreeView.Add(backupTreeItem);
+
+                foreach (XElement dir in backup.Elements("Directory"))
+                {
+                    DirVM dirTreeItem = new DirVM(new BackupDir((string)dir.Attribute("Name")));
+                    backupTreeItem.Add(dirTreeItem);
+                    
+                    foreach (XElement file in dir.Elements("File"))
+                    {
+                        FileVM fileTreeItem = new FileVM(new BackupFile((string)file.Attribute("Name"),""));
+                        dirTreeItem.Add(fileTreeItem);
+                    }
+                }
+
+            }
+        }
 
 
         public ObservableCollection<BackupVM> RootCollection
         {
             get { return _rootCollection; }
+        }
+
+        public ObservableCollection<BackupVM> BackupTreeView
+        {
+            get { return _backupTreeView; } 
         }
 
         public ObservableCollection<BackupItem> BackupList
@@ -246,7 +283,19 @@ namespace BackendGUI.ViewModels
             set
             {
                 _selectedBackupIndex = value;
+
+                UpdateBackupView();
             }
+        }
+
+        public string Log
+        { 
+            get { return _logText; }
+            set
+            {
+                _logText = value;
+                RaisedPropertyChanged("Log");
+            } 
         }
 
         public ICommand BackupCommand
