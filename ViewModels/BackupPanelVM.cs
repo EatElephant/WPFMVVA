@@ -159,6 +159,11 @@ namespace BackendGUI.ViewModels
 
         private void LoadBackupList()
         {
+            if (!File.Exists(BACKUPLIST_PATH))
+            {
+                File.Create(BACKUPLIST_PATH);
+            }
+
             XElement list = XElement.Load(BACKUPLIST_PATH);
 
             foreach (XElement backup in list.Elements("Backup"))
