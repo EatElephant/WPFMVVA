@@ -87,7 +87,10 @@ namespace BackendGUI.ViewModels
             {
                 foreach (XElement file in dir.Elements("File"))
                 {
-                    File.Copy((string)file.Attribute("Src"), (string)file.Attribute("Dst"), true);
+                    if (File.Exists((string)file.Attribute("Src")))
+                        File.Copy((string)file.Attribute("Src"), (string)file.Attribute("Dst"), true);
+                    else
+                        MessageBox.Show("Backup file " + (string)file.Attribute("Src") + " is lost!", "BackendGUI");
                 }
             }
         }
@@ -178,7 +181,14 @@ namespace BackendGUI.ViewModels
 
         private void AddBackup(string title, string path)
         {
-            _backupList.Add(new BackupItem(title, path));
+            BackupItem newBackup = new BackupItem(title, path);
+            foreach (BackupItem backup in _backupList)
+            {
+                if (backup.Title == newBackup.Title)
+                    return;
+            }
+
+            _backupList.Add(newBackup);
 
             UpdateBackupListFile();
         }
@@ -224,8 +234,16 @@ namespace BackendGUI.ViewModels
 
                 foreach (XElement file in dir.Elements("File"))
                 {
-                    FileVM fileVM = new FileVM(new BackupFile((string)file.Attribute("Name"), (string)file.Attribute("Path")));
-                    dirVM.Add(fileVM);
+                    FileVM fileVM;
+                    if (File.Exists((string)file.Attribute("Path")))
+                    {
+                        fileVM = new FileVM(new BackupFile((string)file.Attribute("Name"), (string)file.Attribute("Path")));
+                        dirVM.Add(fileVM);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Tracked file " + (string)file.Attribute("Path") + " can't be found!", "BackendGUI");
+                    }
                 }
 
             }
