@@ -161,7 +161,8 @@ namespace BackendGUI.ViewModels
         {
             if (!File.Exists(BACKUPLIST_PATH))
             {
-                File.Create(BACKUPLIST_PATH);
+                XElement emptylist = new XElement("BackupList");
+                emptylist.Save(BACKUPLIST_PATH);
             }
 
             XElement list = XElement.Load(BACKUPLIST_PATH);
@@ -228,6 +229,12 @@ namespace BackendGUI.ViewModels
 
         private void LoadTrackTree()
         {
+            if (!File.Exists(TRACKTREE_PATH))
+            {
+                XElement emptyTrackTree = new XElement("TrackTree", new XAttribute("Title", "Track Tree"));
+                emptyTrackTree.Save(TRACKTREE_PATH);
+            }
+
             _treeRoot = XElement.Load(TRACKTREE_PATH);
             _backupRoot.Children.Clear();
             _backupRoot.Title = (string)_treeRoot.Attribute("Title");
