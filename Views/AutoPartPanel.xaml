@@ -37,6 +37,7 @@
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
                                 <!--<RowDefinition Height="75"/>-->
                             </Grid.RowDefinitions>
                             
@@ -56,6 +57,8 @@
                             <TextBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding newPieceScriptName}"/>
                             <TextBox Grid.Row="7" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="tolerance"/>
                             <TextBox Grid.Row="7" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding tolerance}"/>
+                            <TextBox Grid.Row="8" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="ScanOption"/>
+                            <TextBox Grid.Row="8" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding ScanOption}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

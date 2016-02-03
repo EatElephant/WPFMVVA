@@ -44,6 +44,7 @@ namespace BackendGUI.Models
         public string inspectScriptName { get; set; }
         public string newPieceScriptName { get; set; }
         public string tolerance { get; set; }
+        public string ScanOption { get; set; }
 
         public ObservableCollection<FeatureItem> Items
         {
@@ -75,6 +76,9 @@ namespace BackendGUI.Models
                 inspectScriptName = (string)node.Element(NS + "inspectScriptName");
                 newPieceScriptName = (string)node.Element(NS + "newPieceScriptName");
                 tolerance = (string)node.Element(NS + "tolerance");
+                ScanOption = (string)node.Element(NS + "ScanOption");
+                if (ScanOption == null)
+                    ScanOption = "0";
             }
             catch (Exception ex)
             {
@@ -103,6 +107,7 @@ namespace BackendGUI.Models
             res.Add(new XElement(NS + "inspectScriptName", inspectScriptName));
             res.Add(new XElement(NS + "newPieceScriptName", newPieceScriptName));
             res.Add(new XElement(NS + "tolerance", tolerance));
+            res.Add(new XElement(NS + "ScanOption", ScanOption));
 
             return res;
         }

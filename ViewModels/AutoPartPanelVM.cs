@@ -78,7 +78,7 @@ namespace BackendGUI.ViewModels
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
 
             dlg.InitialDirectory = FilePath.Substring(0, (FilePath.LastIndexOf(@"\") + 1));
-            dlg.FileName = "AutoPart";
+            dlg.FileName = "AutoParts";
             dlg.DefaultExt = "xml";
             dlg.Filter = "Xml Files (.xml)|*.xml|All Files|*.*";
 
