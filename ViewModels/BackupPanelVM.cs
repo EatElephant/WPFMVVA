@@ -132,6 +132,7 @@ namespace BackendGUI.ViewModels
         {
             XElement backup = new XElement("Backup", new XAttribute("Title", title), new XAttribute("Date", DateTime.Now.ToString()), new XAttribute("Log", log));
 
+
             foreach (DirVM dir in _backupRoot.Children)
             {
                 XElement dirNode = new XElement("Directory", new XAttribute("Name", dir.Name));
@@ -150,6 +151,11 @@ namespace BackendGUI.ViewModels
                 }
                 backup.Add(dirNode);
             }
+
+            string backupFolder = Directory.GetCurrentDirectory() + BACKUP_PATH + title;
+            if (!Directory.Exists(backupFolder))
+                Directory.CreateDirectory(backupFolder);
+
 
             string backupFilePath = Directory.GetCurrentDirectory() + BACKUP_PATH + title + @"\Backup.xml";
             backup.Save(backupFilePath);
