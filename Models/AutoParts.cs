@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -196,6 +197,42 @@ namespace BackendGUI.Models
             {
                 int newIndex = Parts.Count;
                 parts.Add(new AutoPart(NS, newIndex));
+
+                if (Directory.Exists(@"D:\API\Testing"))
+                {
+                    string partName = "Part" + newIndex.ToString();
+                    string newDir = @"D:\API\Testing\Part" + newIndex.ToString();
+                    if (!Directory.Exists(newDir))
+                    {
+                        if (DialogResult.Yes == MessageBox.Show("Do you want to create directory " + newDir + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
+                        {
+                            Directory.CreateDirectory(newDir);
+                            
+                            //Copy new piece and inspection script template
+                            if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts"))
+                            {
+                                //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts");
+                                UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts", newDir, partName);
+                            }
+                            if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts"))
+                            {
+                                //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts");
+                                UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts", newDir, partName);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UseTemplate(string source, string destination, string realPath, string realName)
+        {
+            if (File.Exists(source))
+            {
+                string template = File.ReadAllText(source);
+                string temp = template.Replace("_UNDEFINEPATH_", realPath);
+                string finalfile = temp.Replace("_PARTNAME_", realName);
+                File.WriteAllText(destination, finalfile);
             }
         }
 
@@ -205,6 +242,16 @@ namespace BackendGUI.Models
             {
                 parts.RemoveAt(index);
             }
+
+            string delPath = @"D:\API\Testing\Part" + index.ToString();
+            if (Directory.Exists(delPath))
+            {
+                if (DialogResult.Yes == MessageBox.Show("Are you sure you want to delete the directory " + delPath + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
+                {
+                    Directory.Delete(delPath, true);
+                }
+            }
+
         }
     }
 }

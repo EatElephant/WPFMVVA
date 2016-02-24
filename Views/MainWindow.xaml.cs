@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BackendGUI.Helper;
 
 namespace BackendGUI
 {
@@ -29,6 +30,16 @@ namespace BackendGUI
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            LoginDialog loginDlg = new LoginDialog();
+            if (true == loginDlg.ShowDialog())
+            {
+                TabControl.IsEnabled = true;
+                LoginInfo.Content = "Admin is logined in";
+            }
         }
     }
 }

@@ -46,10 +46,10 @@
                 <!-- login command button-->
                 <Grid Grid.Column="2" Margin="0,0,2,0">
                     <StackPanel   Orientation="Horizontal">
-                        <Button x:Name="LoginBtn" Width="35" Height="35" Style="{StaticResource ImageButtonStyle}">
+                        <Button x:Name="LoginBtn" Width="35" Height="35" Style="{StaticResource ImageButtonStyle}" Click="Login_Click">
                             <Image Source ="../Images/loginIcon.png" />
                         </Button>
-                        <Label Content="Admin is logined in" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+                        <Label x:Name="LoginInfo" Content="Need to login" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
                     </StackPanel>
                 </Grid>
 
@@ -68,41 +68,26 @@
         </Border>
         
         <!-- TabControl Panel-->
-        <TabControl Background="LightGray" Height ="800" Width="1500" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+        <TabControl x:Name="TabControl" Background="LightGray" Height ="800" Width="1500" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" IsEnabled="False">
             <TabItem Header="Devices" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <StackPanel>
-                    <Views:DevicePanel x:Name="DevicePanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
-                </StackPanel>
+                <Views:DevicePanel x:Name="DevicePanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
             </TabItem>
             <TabItem Header="Parts" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <Grid>
-                    <Views:AutoPartPanel x:Name="autoPartPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
-                </Grid>
+                <Views:AutoPartPanel x:Name="autoPartPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
             </TabItem>
             <TabItem Header="Procedure" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <StackPanel>
-
-                </StackPanel>
             </TabItem>
             <TabItem Header="Calibration" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <StackPanel>
-
-                </StackPanel>
             </TabItem>
             <TabItem Header="Report" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <StackPanel>
-
-                </StackPanel>
             </TabItem>
             <TabItem Header="Log" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <StackPanel>
-
-                </StackPanel>
+            </TabItem>
+            <TabItem Header="Accounts" Style="{DynamicResource ResourceKey=styleTabItem}">
+                <Views:AccountPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
             </TabItem>
             <TabItem Header="Backup" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <StackPanel>
-                    <Views:BackupPanel x:Name="backupPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
-                </StackPanel>
+                <Views:BackupPanel x:Name="backupPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
             </TabItem>
         </TabControl>
     </Grid>

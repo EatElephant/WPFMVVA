@@ -58,7 +58,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Helper\LoginDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Helper\RenameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -89,12 +97,17 @@
     <Compile Include="Helper\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper\LoginDialog.xaml.cs">
+      <DependentUpon>LoginDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helper\RenameDialog.xaml.cs">
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountManager.cs" />
     <Compile Include="Models\AutoParts.cs" />
     <Compile Include="Models\BackupModels.cs" />
     <Compile Include="Models\CameraSettings.cs" />
+    <Compile Include="ViewModels\AccountPanelVM.cs" />
     <Compile Include="ViewModels\AutoPartPanelVM.cs" />
     <Compile Include="ViewModels\BackupPanelVM.cs" />
     <Compile Include="ViewModels\CameraSettingPanelVM.cs" />
@@ -102,6 +115,9 @@
     <Compile Include="ViewModels\MainWinVM.cs" />
     <Compile Include="ViewModels\TreeItemVM.cs" />
     <Compile Include="ViewModels\WithNotification.cs" />
+    <Compile Include="Views\AccountPanel.xaml.cs">
+      <DependentUpon>AccountPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AutoPartPanel.xaml.cs">
       <DependentUpon>AutoPartPanel.xaml</DependentUpon>
     </Compile>
@@ -161,6 +177,9 @@
     <Resource Include="Images\DataIcon.png" />
     <Resource Include="Images\DirIcon.png" />
     <Resource Include="Images\FileIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\loginIcon2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
