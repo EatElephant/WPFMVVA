@@ -121,7 +121,7 @@
                         </Style>
                     </TreeView.ItemContainerStyle>
                 </TreeView>
-                <TextBox x:Name="LogDisplay" Grid.Row="1" Margin="10,10" Height="200" Text="{Binding Log}" FontSize="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsEnabled="False"/>
+                <TextBox x:Name="LogDisplay" Grid.Row="1" Margin="10,10" Height="200" Text="{Binding Log}" FontSize="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
             </Grid>
         </Grid>
 

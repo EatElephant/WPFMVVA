@@ -25,6 +25,8 @@ namespace BackendGUI
         {
             InitializeComponent();
             this.DataContext = new ViewModels.MainWinVM();
+
+            Login_Click(this, new RoutedEventArgs());
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

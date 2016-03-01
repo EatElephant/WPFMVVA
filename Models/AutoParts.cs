@@ -38,6 +38,9 @@ namespace BackendGUI.Models
 
         public XNamespace NS;
         public string PartName { get; set; }
+        public string PartDescription { get; set; }
+        public string CustomerPartName { get; set; }
+        public string CustomerPartNumber { get; set; }
         public string CreateDate { get; set; }
         public string dataFolder { get; set; }
         public string cadFileName { get; set; }
@@ -66,6 +69,9 @@ namespace BackendGUI.Models
             {
                 NS = ns;
                 PartName = (string)node.Element(NS + "PartName");
+                PartDescription = (string)node.Element(NS + "PartDescription");
+                CustomerPartName = (string)node.Element(NS + "CustomerPartName");
+                CustomerPartNumber = (string)node.Element(NS + "CustomerPartNumber");
                 CreateDate = (string)node.Element(NS + "CreateDate");
                 foreach (XElement item in node.Element(NS + "Items").Elements())
                 {
@@ -92,6 +98,9 @@ namespace BackendGUI.Models
             XElement res = new XElement("AutoPart");
 
             res.Add(new XElement(NS + "PartName", PartName));
+            res.Add(new XElement(NS + "PartDescription", PartDescription));
+            res.Add(new XElement(NS + "CustomerPartName", CustomerPartName));
+            res.Add(new XElement(NS + "CustomerPartNumber", CustomerPartNumber));
             res.Add(new XElement(NS + "CreateDate", CreateDate));
             
             XElement ItemsNode = new XElement(NS + "Items");
@@ -196,18 +205,25 @@ namespace BackendGUI.Models
             if (rootNode != null)
             {
                 int newIndex = Parts.Count;
-                parts.Add(new AutoPart(NS, newIndex));
+                string partName = "Part" + newIndex.ToString();
+                string newDir = @"D:\API\Testing\Part" + newIndex.ToString();
+
+                AutoPart newPart = new AutoPart(NS, newIndex);
+                newPart.inspectScriptName = "InspectionScripts";
+                newPart.newPieceScriptName = "NewPieceScripts";
+                newPart.dataFolder = newDir + @"\";
+                newPart.tolerance = "1";
+                newPart.ScanOption = "0";
+                parts.Add(newPart);
 
                 if (Directory.Exists(@"D:\API\Testing"))
                 {
-                    string partName = "Part" + newIndex.ToString();
-                    string newDir = @"D:\API\Testing\Part" + newIndex.ToString();
                     if (!Directory.Exists(newDir))
                     {
                         if (DialogResult.Yes == MessageBox.Show("Do you want to create directory " + newDir + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
                         {
                             Directory.CreateDirectory(newDir);
-                            
+
                             //Copy new piece and inspection script template
                             if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts"))
                             {
@@ -220,6 +236,10 @@ namespace BackendGUI.Models
                                 UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts", newDir, partName);
                             }
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Path: " + newDir + " already exists, new folder will not be created!","BackendGUI");
                     }
                 }
             }

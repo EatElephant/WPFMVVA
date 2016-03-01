@@ -38,27 +38,36 @@
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
                                 <!--<RowDefinition Height="75"/>-->
                             </Grid.RowDefinitions>
                             
                             <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="PartName"/>
                             <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding PartName}"/>
-                            <TextBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="CreateDate"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding CreateDate}"/>
-                            <TextBox Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="dataFolder"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding dataFolder}"/>
-                            <TextBox Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="cadFileName"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding cadFileName}"/>
-                            <TextBox Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="robotScriptName"/>
-                            <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding robotScriptName}"/>
-                            <TextBox Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="inspectScriptName"/>
-                            <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding inspectScriptName}"/>
-                            <TextBox Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="newPieceScriptName"/>
-                            <TextBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding newPieceScriptName}"/>
-                            <TextBox Grid.Row="7" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="tolerance"/>
-                            <TextBox Grid.Row="7" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding tolerance}"/>
-                            <TextBox Grid.Row="8" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="ScanOption"/>
-                            <TextBox Grid.Row="8" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding ScanOption}"/>
+                            <TextBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="PartDescription"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding PartDescription}"/>
+                            <TextBox Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="CustomerPartName"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding CustomerPartName}"/>
+                            <TextBox Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="CustomerPartNumber"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding CustomerPartNumber}"/>
+                            <TextBox Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="CreateDate"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding CreateDate}"/>
+                            <TextBox Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="dataFolder"/>
+                            <TextBox Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding dataFolder}"/>
+                            <TextBox Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="cadFileName"/>
+                            <TextBox Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding cadFileName}"/>
+                            <TextBox Grid.Row="7" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black"  Text="robotScriptName"/>
+                            <TextBox Grid.Row="7" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding robotScriptName}"/>
+                            <TextBox Grid.Row="8" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="inspectScriptName"/>
+                            <TextBox Grid.Row="8" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding inspectScriptName}"/>
+                            <TextBox Grid.Row="9" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="newPieceScriptName"/>
+                            <TextBox Grid.Row="9" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding newPieceScriptName}"/>
+                            <TextBox Grid.Row="10" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="tolerance"/>
+                            <TextBox Grid.Row="10" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding tolerance}"/>
+                            <TextBox Grid.Row="11" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="False" Foreground="Black" Text="ScanOption"/>
+                            <TextBox Grid.Row="11" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding ScanOption}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
