@@ -24,6 +24,7 @@ namespace BackendGUI.Helper
         public LoginDialog()
         {
             InitializeComponent();
+            UserNameTxt.Focus();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)

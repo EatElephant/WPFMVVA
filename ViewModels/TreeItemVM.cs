@@ -181,7 +181,7 @@ namespace BackendGUI.ViewModels
         {
             OpenFileDialog dlg = new OpenFileDialog();
 
-            dlg.Filter = "txt files (*.txt)|*.txt|xml files (*.xml)|*.xml|config files (*.config)|*.config| All files (*.*)|*.*";
+            dlg.Filter = "All files (*.*)|*.*|txt files (*.txt)|*.txt|xml files (*.xml)|*.xml|config files (*.config)|*.config";
             dlg.RestoreDirectory = true;
 
             if (DialogResult.OK == dlg.ShowDialog())

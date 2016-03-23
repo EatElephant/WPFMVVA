@@ -70,6 +70,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AnalysisPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AutoPartPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,6 +112,7 @@
     <Compile Include="Models\BackupModels.cs" />
     <Compile Include="Models\CameraSettings.cs" />
     <Compile Include="ViewModels\AccountPanelVM.cs" />
+    <Compile Include="ViewModels\AnalysisPanelVM.cs" />
     <Compile Include="ViewModels\AutoPartPanelVM.cs" />
     <Compile Include="ViewModels\BackupPanelVM.cs" />
     <Compile Include="ViewModels\CameraSettingPanelVM.cs" />
@@ -117,6 +122,9 @@
     <Compile Include="ViewModels\WithNotification.cs" />
     <Compile Include="Views\AccountPanel.xaml.cs">
       <DependentUpon>AccountPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AnalysisPanel.xaml.cs">
+      <DependentUpon>AnalysisPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AutoPartPanel.xaml.cs">
       <DependentUpon>AutoPartPanel.xaml</DependentUpon>
@@ -153,6 +161,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\imgNotAvailable.gif" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -180,6 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\loginIcon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\openFile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -24,7 +24,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="DataList" Grid.Row="0" Margin="10,40,10,10" HorizontalContentAlignment="Stretch" ItemsSource ="{Binding AccManager.Accounts}" SelectedIndex="{Binding SelIndex}">
+        <ListBox x:Name="DataList" Grid.Row="0" Margin="10,40,10,10" HorizontalContentAlignment="Stretch" ItemsSource ="{Binding AccManager.Accounts}" SelectedIndex="{Binding SelIndex}" VirtualizingPanel.ScrollUnit="Pixel">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Background="LightGray" Margin ="3" CornerRadius="10" BorderBrush="DarkSlateGray" BorderThickness="1">

@@ -29,7 +29,7 @@
                 <StackPanel Margin="10" Grid.Row="1" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Height="60">
                         <TextBlock Text="UserName" Width="90" Height="30" FontSize="16" TextAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding UserName}" Width="180" Height="30" ToolTip="Enter your user name"/>
+                        <TextBox x:Name="UserNameTxt" Text="{Binding UserName}" Width="180" Height="30" ToolTip="Enter your user name"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="60">
                         <TextBlock Text="Password" Width="90" Height="30" FontSize="16" TextAlignment="Left" VerticalAlignment="Center"/>
@@ -38,7 +38,7 @@
                 </StackPanel>
                 <StackPanel Grid.Row="2" Height="30" Orientation="Horizontal" Margin="80,0,0,10">
                     <Button Width="80" Margin="10,0" Content="Cancel" Click="Cancel_Click"/>
-                    <Button Width="80" Margin="10,0" Content="Login" Click="Login_Click"/>
+                    <Button Width="80" Margin="10,0" Content="Login" Click="Login_Click" IsDefault="True"/>
                 </StackPanel>
             </Grid>
         </Grid>

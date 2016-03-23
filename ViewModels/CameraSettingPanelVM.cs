@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BackendGUI.Models;
 using System.Windows.Input;
 using System.Windows.Forms;
+using BackendGUI.Helper;
 
 namespace BackendGUI.ViewModels
 {
@@ -36,6 +37,19 @@ namespace BackendGUI.ViewModels
 
         public void Load()
         {
+            //Add password authentication to this function. Use RenameDialog as password input
+            RenameDialog pswdDlg = new RenameDialog("Password: ");
+
+            if (false == pswdDlg.ShowDialog())
+                return;
+
+            if ("brian.li@apisensor.com" != pswdDlg.Value)
+            {
+                MessageBox.Show("Password is not correct, cannot load camera parameters!", "BackendGUI");
+                return;
+            }
+
+
             if (!settings.Open(FilePath))
             {
                 MessageBox.Show("Loading File " + FilePath + " Fails!");

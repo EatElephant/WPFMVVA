@@ -68,27 +68,32 @@
         </Border>
         
         <!-- TabControl Panel-->
-        <TabControl x:Name="TabControl" Background="LightGray" Height ="800" Width="1500" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" IsEnabled="False">
-            <TabItem Header="Devices" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <Views:DevicePanel x:Name="DevicePanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
-            </TabItem>
-            <TabItem Header="Parts" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <Views:AutoPartPanel x:Name="autoPartPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
-            </TabItem>
-            <TabItem Header="Procedure" Style="{DynamicResource ResourceKey=styleTabItem}">
-            </TabItem>
-            <TabItem Header="Calibration" Style="{DynamicResource ResourceKey=styleTabItem}">
-            </TabItem>
-            <TabItem Header="Report" Style="{DynamicResource ResourceKey=styleTabItem}">
-            </TabItem>
-            <TabItem Header="Log" Style="{DynamicResource ResourceKey=styleTabItem}">
-            </TabItem>
-            <TabItem Header="Accounts" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <Views:AccountPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
-            </TabItem>
-            <TabItem Header="Backup" Style="{DynamicResource ResourceKey=styleTabItem}">
-                <Views:BackupPanel x:Name="backupPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
-            </TabItem>
-        </TabControl>
+        <Viewbox Grid.Row="1" StretchDirection="Both" Margin="120, 100" Stretch="Uniform">
+            <TabControl x:Name="TabControl" Background="LightGray" Height ="800" Width="1500" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False">
+                <TabItem Header="Parts" Style="{DynamicResource ResourceKey=styleTabItem}">
+                    <Views:AutoPartPanel x:Name="autoPartPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
+                </TabItem>
+                <!--<TabItem Header="Procedure" Style="{DynamicResource ResourceKey=styleTabItem}">
+                </TabItem>
+                <TabItem Header="Calibration" Style="{DynamicResource ResourceKey=styleTabItem}">
+                </TabItem>
+                <TabItem Header="Report" Style="{DynamicResource ResourceKey=styleTabItem}">
+                </TabItem>
+                <TabItem Header="Log" Style="{DynamicResource ResourceKey=styleTabItem}">
+                </TabItem>-->
+                <TabItem Header="Accounts" Style="{DynamicResource ResourceKey=styleTabItem}">
+                    <Views:AccountPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
+                </TabItem>
+                <TabItem Header="Backup" Style="{DynamicResource ResourceKey=styleTabItem}">
+                    <Views:BackupPanel x:Name="backupPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
+                </TabItem>
+                <TabItem Header="Devices" Style="{DynamicResource ResourceKey=styleTabItem}">
+                    <Views:DevicePanel x:Name="DevicePanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
+                </TabItem>
+                <TabItem Header="Analysis" Style="{DynamicResource ResourceKey=styleTabItem}">
+                    <Views:AnalysisPanel x:Name="AnalysisPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Height="750" Width="1400"/>
+                </TabItem>
+            </TabControl>
+        </Viewbox>
     </Grid>
 </Window>

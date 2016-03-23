@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
 using System.Collections.ObjectModel;
+using BackendGUI.Helper;
 
 
 
@@ -37,18 +38,19 @@ namespace BackendGUI.Models
         private ObservableCollection<FeatureItem> items = new ObservableCollection<FeatureItem>();
 
         public XNamespace NS;
-        public string PartName { get; set; }
-        public string PartDescription { get; set; }
-        public string CustomerPartName { get; set; }
-        public string CustomerPartNumber { get; set; }
-        public string CreateDate { get; set; }
-        public string dataFolder { get; set; }
-        public string cadFileName { get; set; }
-        public string robotScriptName { get; set; }
-        public string inspectScriptName { get; set; }
-        public string newPieceScriptName { get; set; }
-        public string tolerance { get; set; }
-        public string ScanOption { get; set; }
+
+        private string _partName;
+        private string _partDescription;
+        private string _customerPartName;
+        private string _customerPartNumber;
+        private string _createDate;
+        private string _dataFolder;
+        private string _cadFileName;
+        private string _robotScriptName;
+        private string _inspectScriptName;
+        private string _newPieceScriptName;
+        private string _tolerance;
+        private string _scanOption;
 
         public ObservableCollection<FeatureItem> Items
         {
@@ -59,8 +61,27 @@ namespace BackendGUI.Models
         public AutoPart(XNamespace ns, int index = 0)
         {
             NS = ns;
-            PartName = "AutoPart" + index.ToString();
-            CreateDate = DateTime.Now.ToString();
+            _partName = "Part" + index.ToString();
+            _createDate = DateTime.Now.ToString();
+        }
+
+        public AutoPart(XNamespace ns, string PartName, string PartDescription, string CustomerPartName, string CustomerPartNumber, string cadFileName,
+            string robotScriptName, string inspectScriptName, string newPieceScriptName, string dataFolder, string tolerance, string ScanOption)
+        {
+            NS = ns;
+            _partName = PartName;
+            _createDate = DateTime.Now.ToString();
+
+            _partDescription = PartDescription;
+            _customerPartName = CustomerPartName;
+            _customerPartNumber = CustomerPartNumber;
+            _cadFileName = cadFileName;
+            _robotScriptName = robotScriptName;
+            _inspectScriptName = inspectScriptName;
+            _newPieceScriptName = newPieceScriptName;
+            _dataFolder = dataFolder;
+            _tolerance = tolerance;
+            _scanOption = ScanOption;
         }
 
         public AutoPart(XElement node, XNamespace ns)
@@ -68,22 +89,22 @@ namespace BackendGUI.Models
             try
             {
                 NS = ns;
-                PartName = (string)node.Element(NS + "PartName");
-                PartDescription = (string)node.Element(NS + "PartDescription");
-                CustomerPartName = (string)node.Element(NS + "CustomerPartName");
-                CustomerPartNumber = (string)node.Element(NS + "CustomerPartNumber");
-                CreateDate = (string)node.Element(NS + "CreateDate");
+                _partName = (string)node.Element(NS + "PartName");
+                _partDescription = (string)node.Element(NS + "PartDescription");
+                _customerPartName = (string)node.Element(NS + "CustomerPartName");
+                _customerPartNumber = (string)node.Element(NS + "CustomerPartNumber");
+                _createDate = (string)node.Element(NS + "CreateDate");
                 foreach (XElement item in node.Element(NS + "Items").Elements())
                 {
                     items.Add(new FeatureItem((string)item.Element("ItemName"), (string)item.Element("Description"), (string)item.Element("tolerance")));
                 }
-                dataFolder = (string)node.Element(NS + "dataFolder");
-                cadFileName = (string)node.Element(NS + "cadFileName");
-                robotScriptName = (string)node.Element(NS + "robotScriptName");
-                inspectScriptName = (string)node.Element(NS + "inspectScriptName");
-                newPieceScriptName = (string)node.Element(NS + "newPieceScriptName");
-                tolerance = (string)node.Element(NS + "tolerance");
-                ScanOption = (string)node.Element(NS + "ScanOption");
+                _dataFolder = (string)node.Element(NS + "dataFolder");
+                _cadFileName = (string)node.Element(NS + "cadFileName");
+                _robotScriptName = (string)node.Element(NS + "robotScriptName");
+                _inspectScriptName = (string)node.Element(NS + "inspectScriptName");
+                _newPieceScriptName = (string)node.Element(NS + "newPieceScriptName");
+                _tolerance = (string)node.Element(NS + "tolerance");
+                _scanOption = (string)node.Element(NS + "ScanOption");
                 if (ScanOption == null)
                     ScanOption = "0";
             }
@@ -121,6 +142,176 @@ namespace BackendGUI.Models
 
             return res;
         }
+
+
+        #region Attributes
+        public string PartName
+        {
+            get
+            {
+                return _partName;
+            }
+            set
+            {
+                if (_partName != value)
+                {
+                    MessageBox.Show("Warning:the setting PartName has been changed, This is a very important index parameter in AutoParts.xml parameters, so changing this setting may break down some other configurations!", "BackendGUI");
+                    _partName = value;
+                }
+            }
+        }
+        public string PartDescription 
+        {
+            get
+            {
+                return _partDescription;
+            }
+            set
+            {
+                if (_partDescription != value)
+                    _partDescription = value;
+            }
+        }
+        public string CustomerPartName 
+        {
+            get
+            {
+                return _customerPartName;
+            }
+            set
+            {
+                if (_customerPartName != value)
+                    _customerPartName = value;
+            }
+        }
+        public string CustomerPartNumber 
+        {
+            get
+            {
+                return _customerPartNumber;
+            }
+            set
+            {
+                if (_customerPartNumber != value)
+                    _customerPartNumber = value;
+            }
+        }
+        public string CreateDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                if (_createDate != value)
+                    _createDate = value;
+            }
+        }
+        public string dataFolder
+        {
+            get
+            {
+                return _dataFolder;
+            }
+            set
+            {
+                if (_dataFolder != value)
+                {
+                    string pre_folder = _dataFolder;
+                    _dataFolder = value;
+                    try
+                    {
+                        if(Directory.Exists(pre_folder))
+                        {
+                            if (DialogResult.Yes == MessageBox.Show("Warning:the setting dataFolder has been changed, some of the AutoParts.xml configuration may break down! " +
+                                "Please check to make sure everything works! Do you want to rename the folder " + pre_folder + " to " + _dataFolder + "?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
+                            {
+                                Directory.Move(pre_folder, _dataFolder);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Rename Folder Exception: " + ex.Message, "BackendGUI");
+                    }
+
+                }
+            }
+        }
+        public string cadFileName
+        {
+            get
+            {
+                return _cadFileName;
+            }
+            set
+            {
+                if (_cadFileName != value)
+                    _cadFileName = value;
+            }
+        }
+        public string robotScriptName 
+        {
+            get
+            {
+                return _robotScriptName;
+            }
+            set
+            {
+                if (_robotScriptName != value)
+                    _robotScriptName = value;
+            }
+        }
+        public string inspectScriptName 
+        {
+            get
+            {
+                return _inspectScriptName;
+            }
+            set
+            {
+                if (_inspectScriptName != value)
+                    _inspectScriptName = value;
+            }
+        }
+        public string newPieceScriptName
+        {
+            get
+            {
+                return _newPieceScriptName;
+            }
+            set
+            {
+                if (_newPieceScriptName != value)
+                    _newPieceScriptName = value;
+            }
+        }
+        public string tolerance 
+        {
+            get
+            {
+                return _tolerance;
+            }
+            set
+            {
+                if (_tolerance != value)
+                    _tolerance = value;
+            }
+        }
+        public string ScanOption 
+        {
+            get
+            {
+                return _scanOption;
+            }
+            set
+            {
+                if (_scanOption != value)
+                    _scanOption = value;
+            }
+        }
+        #endregion
     }
 
     /// <summary>
@@ -153,6 +344,8 @@ namespace BackendGUI.Models
             try
             {
                 rootNode = XElement.Load(path);
+
+                parts.Clear();
 
                 foreach (XElement node in rootNode.Elements("AutoPart"))
                 {
@@ -204,48 +397,59 @@ namespace BackendGUI.Models
         {
             if (rootNode != null)
             {
-                int newIndex = Parts.Count;
-                string partName = "Part" + newIndex.ToString();
-                string newDir = @"D:\API\Testing\Part" + newIndex.ToString();
+                int newIndex = GetNextIndex();
 
-                AutoPart newPart = new AutoPart(NS, newIndex);
-                newPart.inspectScriptName = "InspectionScripts";
-                newPart.newPieceScriptName = "NewPieceScripts";
-                newPart.dataFolder = newDir + @"\";
-                newPart.tolerance = "1";
-                newPart.ScanOption = "0";
+                string partName = "Part" + newIndex.ToString();
+
+                RenameDialog inputDlg = new RenameDialog("PartName: ", false, partName);
+
+                if (false == inputDlg.ShowDialog())
+                    return;
+                else
+                    partName = inputDlg.Value;
+                
+
+                string newDir = @"D:\API\Testing\" + partName;
+
+                AutoPart newPart = new AutoPart(NS, partName, "Description For This Part", "Part Name From Customer", "Part Number From Customer", partName + ".stp", partName.ToUpper(),
+                    "InspectionScripts", "NewPieceScripts", newDir + @"\", "1", "0");
                 parts.Add(newPart);
 
-                if (Directory.Exists(@"D:\API\Testing"))
-                {
-                    if (!Directory.Exists(newDir))
-                    {
-                        if (DialogResult.Yes == MessageBox.Show("Do you want to create directory " + newDir + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
-                        {
-                            Directory.CreateDirectory(newDir);
+                //if (Directory.Exists(@"D:\API\Testing"))
+                //{
+                //    if (!Directory.Exists(newDir))
+                //    {
+                //        if (DialogResult.Yes == MessageBox.Show("Do you want to create directory " + newDir + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
+                //        {
+                //            Directory.CreateDirectory(newDir);
 
-                            //Copy new piece and inspection script template
-                            if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts"))
-                            {
-                                //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts");
-                                UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts", newDir, partName);
-                            }
-                            if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts"))
-                            {
-                                //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts");
-                                UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts", newDir, partName);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Path: " + newDir + " already exists, new folder will not be created!","BackendGUI");
-                    }
-                }
+                //            //Copy new piece and inspection script template
+                //            if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts"))
+                //            {
+                //                //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts");
+                //                UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts", newDir, partName);
+                //            }
+                //            if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts"))
+                //            {
+                //                //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts");
+                //                UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts", newDir, partName);
+                //            }
+                //            if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\PartAlignment.txt"))
+                //            {
+                //                //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts");
+                //                UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\PartAlignment.txt", newDir + @"\" + partName + "Alignment.txt", newDir, partName);
+                //            }
+                //        }
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("Path: " + newDir + " already exists, new folder will not be created!","BackendGUI");
+                //    }
+                //}
             }
         }
 
-        private void UseTemplate(string source, string destination, string realPath, string realName)
+        static public void UseTemplate(string source, string destination, string realPath, string realName)
         {
             if (File.Exists(source))
             {
@@ -256,19 +460,47 @@ namespace BackendGUI.Models
             }
         }
 
+        private int GetNextIndex()
+        {
+            int index = 1;
+            bool bFoundIndex = false;
+
+            do
+            {
+                bFoundIndex = false;
+                foreach (AutoPart part in parts)
+                {
+                    if (part.dataFolder == @"D:\API\Testing\Part" + index.ToString() + @"\"||part.PartName == "Part" + index.ToString())
+                    {
+                        bFoundIndex = true;
+                        break;
+                    }
+                }
+
+                if(bFoundIndex)
+                    index++;
+
+            } while (bFoundIndex);
+
+            return index;
+        }
+
         public void DeletePart(int index)
         {
-            if (rootNode != null)
+            if (DialogResult.Yes == MessageBox.Show("Do you confirm to delete the part " + parts[index].PartName + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
             {
-                parts.RemoveAt(index);
-            }
-
-            string delPath = @"D:\API\Testing\Part" + index.ToString();
-            if (Directory.Exists(delPath))
-            {
-                if (DialogResult.Yes == MessageBox.Show("Are you sure you want to delete the directory " + delPath + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
+                string delPath = parts[index].dataFolder;
+                if (rootNode != null)
                 {
-                    Directory.Delete(delPath, true);
+                    parts.RemoveAt(index);
+                }
+
+                if (Directory.Exists(delPath))
+                {
+                    if (DialogResult.Yes == MessageBox.Show("Do you also want to delete the directory " + delPath + " ?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
+                    {
+                        Directory.Delete(delPath, true);
+                    }
                 }
             }
 

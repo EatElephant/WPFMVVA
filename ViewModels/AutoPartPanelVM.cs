@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,6 +76,12 @@ namespace BackendGUI.ViewModels
 
         public void SaveTo()
         {
+            if (CheckDuplicate())
+            {
+                MessageBox.Show("Save AutoParts.xml fails, because of duplicated Part Names!", "BackendGUI");
+                return;
+            }
+
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
 
             dlg.InitialDirectory = FilePath.Substring(0, (FilePath.LastIndexOf(@"\") + 1));
@@ -87,6 +94,58 @@ namespace BackendGUI.ViewModels
                 autoParts.SaveFile(dlg.FileName);
             }
 
+            //Check non-existing dataFolder and create them
+            foreach (AutoPart part in autoParts.Parts)
+            {
+                if (!System.IO.Directory.Exists(part.dataFolder))
+                {
+                    if (DialogResult.Yes == MessageBox.Show(part.PartName + " 's setting dataFolder " + part.dataFolder + 
+                        " is non-existing, do you want to create it and copy template into this folder?", "BackendGUI", System.Windows.Forms.MessageBoxButtons.YesNo))
+                    {
+                        System.IO.Directory.CreateDirectory(part.dataFolder);
+
+                        string newDir = part.dataFolder.Substring(0, part.dataFolder.Length - 1);
+
+                        //Copy new piece and inspection script template
+                        if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts"))
+                        {
+                            //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts");
+                            AutoParts.UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\InspectionScripts", newDir + @"\InspectionScripts", newDir, part.PartName);
+                        }
+                        if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts"))
+                        {
+                            //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts");
+                            AutoParts.UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts", newDir, part.PartName);
+                        }
+                        if (File.Exists(Directory.GetCurrentDirectory() + @"\Templates\PartAlignment.txt"))
+                        {
+                            //File.Copy(Directory.GetCurrentDirectory() + @"\Templates\NewPieceScripts", newDir + @"\NewPieceScripts");
+                            AutoParts.UseTemplate(Directory.GetCurrentDirectory() + @"\Templates\PartAlignment.txt", newDir + @"\" + part.PartName + "Alignment.txt", newDir, part.PartName);
+                        }
+                    }
+                }
+            }
+
+           
+
+        }
+
+        private bool CheckDuplicate()
+        {
+            //Check duplicated part name
+            int totalnum = autoParts.Parts.Count;
+
+            for (int i = 0; i < totalnum; i++)
+            {
+                for (int j = i+1; j < totalnum; j++)
+                {
+                    if (autoParts.Parts[i].PartName == autoParts.Parts[j].PartName)
+                        return true;
+                }
+            }
+
+            //no duplicate
+            return false;
         }
 
         public void AddNewPart()

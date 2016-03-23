@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BackendGUI.ViewModels;
 
 namespace BackendGUI.Helper
 {
@@ -22,12 +23,14 @@ namespace BackendGUI.Helper
         public string Label { get; set; }
         public string Value { get; set; }
 
-        public RenameDialog(string label, bool canCancel = false)
+        public RenameDialog(string label, bool canCancel = false, string defaultVal = "")
         {
             if (canCancel)
                 cancelBtn.IsEnabled = false;
             Label = label;
+            Value = defaultVal;
             InitializeComponent();
+            InputTxt.Focus();
         }
 
         private void Confirm_Click(object sender, RoutedEventArgs e)

@@ -18,7 +18,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="DataList" Grid.Row="0" Margin="10,40,10,10" HorizontalContentAlignment="Stretch" ItemsSource ="{Binding Parts}">
+        <ListBox x:Name="DataList" Grid.Row="0" Margin="10,40,10,10" HorizontalContentAlignment="Stretch" ItemsSource ="{Binding Parts}" VirtualizingPanel.ScrollUnit="Pixel">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Background="LightGray" Margin ="3" CornerRadius="10" BorderBrush="DarkSlateGray" BorderThickness="1">
@@ -82,7 +82,7 @@
             
             <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="30,5,30,5">
                 <Button Height="30" Width="40" Click="OpenFile_Click">
-                    <Image Height="20" Width="20" Source="D:\API\RapidScan\GUI\BackendGUI\Images\openFile.png"/>
+                    <Image Height="20" Width="20" Source="..\Images\openFile.png"/>
                 </Button>
                 <TextBox x:Name="PathText" Height="30" Width="700" Margin="5,5" Background="White" FontSize="15" Text="{Binding FilePath}"/>
                 <Grid>

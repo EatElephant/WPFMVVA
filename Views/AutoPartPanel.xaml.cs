@@ -53,5 +53,6 @@ namespace BackendGUI.Views
             if (DataList.SelectedIndex >= 0)
                 ViewModel.DelSelPart(DataList.SelectedIndex);
         }
+
     }
 }

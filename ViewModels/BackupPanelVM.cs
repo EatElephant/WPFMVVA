@@ -67,6 +67,18 @@ namespace BackendGUI.ViewModels
         {
             if (_selectedBackupIndex > -1 && _backupList.Count > 0)
             {
+                //Add password authentication to this function. Use RenameDialog as password input
+                RenameDialog pswdDlg = new RenameDialog("Password: ");
+
+                if (false == pswdDlg.ShowDialog())
+                    return;
+
+                if ("brian.li@apisensor.com" != pswdDlg.Value)
+                {
+                    MessageBox.Show("Password is not correct, can apply backup!", "BackendGUI");
+                    return;
+                }
+
                 UseBackup(_backupList[_selectedBackupIndex]);
                 return;
             }
@@ -110,6 +122,7 @@ namespace BackendGUI.ViewModels
 
             BackupFiles(dlg.BackupTitle, dlg.Log);
 
+            MessageBox.Show("Backup Completes! The location of backupfile is " + Directory.GetCurrentDirectory() + BACKUP_PATH + dlg.BackupTitle + @"\", "BackendGUI");
         }
 
         public void Delete()
@@ -132,12 +145,19 @@ namespace BackendGUI.ViewModels
         {
             XElement backup = new XElement("Backup", new XAttribute("Title", title), new XAttribute("Date", DateTime.Now.ToString()), new XAttribute("Log", log));
 
-
+            List<FileVM> missingList = new List<FileVM>();
             foreach (DirVM dir in _backupRoot.Children)
             {
                 XElement dirNode = new XElement("Directory", new XAttribute("Name", dir.Name));
                 foreach (FileVM file in dir.Children)
                 {
+                    //Check Missing Files During Runtime
+                    if (!File.Exists(file.Path))
+                    {
+                        MessageBox.Show("Tracked file: " + file.Path + " can't be found! This file will not be backedup and will be delete from tracked list!", "BackendGUI");
+                        missingList.Add(file);
+                        continue;
+                    }
                     //Src is the path of backup file
                     //Dst is the path of tracked file, which the backup file will override
                     string srcDir = Directory.GetCurrentDirectory() + BACKUP_PATH + title + @"\" + dir.Name + @"\";
@@ -149,6 +169,13 @@ namespace BackendGUI.ViewModels
                         Directory.CreateDirectory(srcDir);
                     File.Copy(file.Path, srcPath, true);
                 }
+
+                //Delete Missing File From Tracked List
+                foreach (FileVM file in missingList)
+                {
+                    file.Detach();
+                }
+
                 backup.Add(dirNode);
             }
 
