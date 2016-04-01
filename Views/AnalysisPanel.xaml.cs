@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BackendGUI.ViewModels;
 
 namespace BackendGUI.Views
 {
@@ -20,8 +21,11 @@ namespace BackendGUI.Views
     /// </summary>
     public partial class AnalysisPanel : UserControl
     {
+        AnalysisPanelVM viewModel = new AnalysisPanelVM();
+
         public AnalysisPanel()
         {
+            this.DataContext = viewModel;
             InitializeComponent();
         }
 
@@ -33,15 +37,15 @@ namespace BackendGUI.Views
             }
         }
 
-        private void SelectedPart_GotFocus(object sender, RoutedEventArgs e)
-        {
-            
-        }
+        //private void SelectedPart_GotFocus(object sender, RoutedEventArgs e)
+        //{
+        //    PartsList.ItemsSource = viewModel.FilteredParts;
+        //}
 
-        private void SelectedPart_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
+        //private void SelectedPart_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    PartsList.ItemsSource = viewModel.AutoParts.Parts;
+        //}
 
     }
 }

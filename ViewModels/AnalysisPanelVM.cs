@@ -16,7 +16,8 @@ namespace BackendGUI.ViewModels
 {
     class AnalysisPanelVM : WithNotification
     {
-        private int selectedIndex = -1;
+        //private int selectedIndex = -1;
+        private AutoPart selectedItem;
         private string selectedItemName = "";
         private DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
         private DateTime endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -34,12 +35,12 @@ namespace BackendGUI.ViewModels
         {
             autoParts = new AutoParts();
 
-            filteredParts = new ObservableCollection<AutoPart>();
-
             if (!autoParts.Open(autoPartsPath))
             {
                 MessageBox.Show("Loading File " + autoPartsPath + " Fails!");
             }
+
+            filteredParts = new ObservableCollection<AutoPart>(autoParts.Parts);
 
             analyzeCommand = new DelegateCommand(Analyze);
             refreshCommand = new DelegateCommand(Refresh);
@@ -55,11 +56,11 @@ namespace BackendGUI.ViewModels
         {
             MessageBox.Show("Please make sure all the csv data file under the folder " + SPCFolder + " are not opened in some other process and then click ok!", "BackendGUI");
 
-            string preName = autoParts.Parts[selectedIndex].CustomerPartNumber;
+            string preName = SelectedItem.CustomerPartNumber;
 
             if (preName == "")
             {
-                MessageBox.Show("Can't find CustomerPartNumber for " + autoParts.Parts[SelectedIndex].PartName + "! The part being analyzed needs valid customerPartName!", "BackendGUI");
+                MessageBox.Show("Can't find CustomerPartNumber for " + SelectedItem.PartName + "! The part being analyzed needs valid customerPartName!", "BackendGUI");
                 return;
             }
 
@@ -72,6 +73,12 @@ namespace BackendGUI.ViewModels
             }
 
             List<fileDate> selectedList = FilterAndSort(files);
+
+            if (selectedList.Count <= 0)
+            {
+                MessageBox.Show("Haven't found any features matching the search criterion! Analysis data file will not be generated!", "BackendGUI");
+                return;
+            }
 
             List<Inspection> inspectionList = ReadFeatures(selectedList);
 
@@ -397,9 +404,9 @@ namespace BackendGUI.ViewModels
             }
         }
 
-        private void ShowImage(int index)
+        private void ShowImage()
         {
-            string folder = autoParts.Parts[index].dataFolder;
+            string folder = SelectedItem.dataFolder;
 
             string[] bmps = Directory.GetFiles(folder, "*.bmp");
             string[] jpgs = Directory.GetFiles(folder, "*.jpg");
@@ -429,6 +436,7 @@ namespace BackendGUI.ViewModels
 
         private List<int> SearchByProperty(string property,string name)
         {
+            filteredParts.Clear();
             List<int> res = new List<int>();
 
             for(int i = 0; i < autoParts.Parts.Count; i++)
@@ -458,23 +466,27 @@ namespace BackendGUI.ViewModels
             }
         }
 
-        public int SelectedIndex
+        public AutoPart SelectedItem
         {
-            get { return selectedIndex; }
+            get { return selectedItem; }
             set
             {
-                if (selectedIndex != value)
+                if (value != null)
                 {
-                    selectedIndex = value;
-                    RaisedPropertyChanged("SelectedIndex");
-                    if (selectedIndex >= 0)
+                    if (value != selectedItem)
                     {
-                        SelectedItemName = autoParts.Parts[selectedIndex].CustomerPartName;
-                        ShowImage(selectedIndex);
+                        selectedItem = value;
+                        selectedItemName = SelectedItem.CustomerPartName;
+
+                        ShowImage();
+
+                        RaisedPropertyChanged("SelectedItem");
+                        RaisedPropertyChanged("SelectedItemName");
                     }
                 }
             }
         }
+
 
         public string SelectedItemName
         {
@@ -486,12 +498,14 @@ namespace BackendGUI.ViewModels
                     selectedItemName = value;
                     if (value != "")
                     {
-                        List<int> sel1 = SearchByProperty("CustomerPartName", value);
-                        List<int> sel2 = SearchByProperty("PartName", value);
-                        if (sel1.Count > 0)
-                            SelectedIndex = sel1[0];
-                        else if (sel2.Count > 0)
-                            SelectedIndex = sel2[0];
+                        if(SearchByProperty("CustomerPartName", value).Count <= 0)
+                            SearchByProperty("PartName", value);
+                    }
+                    if (value == "")
+                    {
+                        filteredParts.Clear();
+                        foreach (AutoPart part in autoParts.Parts)
+                            filteredParts.Add(part);
                     }
                         
                     RaisedPropertyChanged("SelectedItemName");

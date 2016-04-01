@@ -14,9 +14,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <ViewModel:AnalysisPanelVM/>
-    </UserControl.DataContext>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -30,7 +27,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Column="0" Margin="10,20" HorizontalContentAlignment="Stretch" ItemsSource ="{Binding AutoParts.Parts}" SelectedIndex="{Binding SelectedIndex}" >
+            <ListBox x:Name="PartsList" Grid.Column="0" Margin="10,20" HorizontalContentAlignment="Stretch" ItemsSource ="{Binding FilteredParts}" SelectedItem="{Binding SelectedItem}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Background="LightGray" Margin ="3" MinHeight="120" CornerRadius="10" BorderBrush="Red" BorderThickness="1">
@@ -72,7 +69,7 @@
                 <ColumnDefinition Width="360"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <TextBox x:Name="SelectedPart" Height="30" Width="730" Margin="10,5" HorizontalAlignment="Left" Background="White" FontSize="15" Text="{Binding SelectedItemName}" KeyDown="SelectedPart_KeyDown" GotFocus="SelectedPart_GotFocus" LostFocus="SelectedPart_LostFocus"/>
+                <TextBox x:Name="SelectedPart" Height="30" Width="730" Margin="10,5" HorizontalAlignment="Left" Background="White" FontSize="15" Text="{Binding SelectedItemName}" KeyDown="SelectedPart_KeyDown"/>
                 <Button Content="Reload Parts" ToolTip="Refresh parts list, should be clicked if autoparts.xml is changed in runtime!" Width="200" Margin="50,10" Command="{Binding RefreshCommand}"/>
             </StackPanel>
             <Button Grid.Column="1" Content="Analyze" ToolTip="Use history data to create an excel file which could be used to create trend chart" Width="200" Margin="50,10" Command="{Binding AnalyzeCommand}" /> 
