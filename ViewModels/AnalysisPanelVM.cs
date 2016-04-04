@@ -398,15 +398,33 @@ namespace BackendGUI.ViewModels
 
         public void Refresh()
         {
-            if (!autoParts.Open(autoPartsPath))
+            if (!AutoParts.Open(autoPartsPath))
             {
                 MessageBox.Show("Loading File " + autoPartsPath + " Fails!");
+            }
+            else
+            {
+                RaisedPropertyChanged("AutoParts");
+                if (SelectedItemName == "")
+                {
+                    FilteredParts.Clear();
+                    foreach (AutoPart part in autoParts.Parts)
+                        FilteredParts.Add(part);
+                }
+                else
+                {
+                    SelectedItemName = "";
+                }
             }
         }
 
         private void ShowImage()
         {
             string folder = SelectedItem.dataFolder;
+
+            if (!Directory.Exists(folder))
+                return;
+
 
             string[] bmps = Directory.GetFiles(folder, "*.bmp");
             string[] jpgs = Directory.GetFiles(folder, "*.jpg");
@@ -461,8 +479,11 @@ namespace BackendGUI.ViewModels
             get { return autoParts; }
             set
             {
-                autoParts = value;
-                RaisedPropertyChanged("AutoParts");
+                if (autoParts != value)
+                {
+                    autoParts = value;
+                    RaisedPropertyChanged("AutoParts");
+                }
             }
         }
 
@@ -503,9 +524,9 @@ namespace BackendGUI.ViewModels
                     }
                     if (value == "")
                     {
-                        filteredParts.Clear();
+                        FilteredParts.Clear();
                         foreach (AutoPart part in autoParts.Parts)
-                            filteredParts.Add(part);
+                            FilteredParts.Add(part);
                     }
                         
                     RaisedPropertyChanged("SelectedItemName");
